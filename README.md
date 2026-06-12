@@ -25,7 +25,7 @@ Aktuelle Version:
 
 Resource-URL:
 
-- `/local/community/openligadb-table-card/openligadb-table-card.js`
+- `/local/community/bundesliga_tracker_cards/dist/openligadb-table-card.js`
 
 Beispiel:
 
@@ -39,7 +39,7 @@ title: Bundesliga Tabelle
 
 Resource-URL:
 
-- `/local/community/openligadb-schedule-card/openligadb-schedule-card.js`
+- `/local/community/bundesliga_tracker_cards/dist/openligadb-schedule-card.js`
 
 Beispiel:
 
@@ -55,4 +55,3 @@ upcoming_limit: 5
 
 - Die Karten nutzen die Sensoren der OpenLigaDB-Integration.
 - Die Dateien liegen im `www/community/`-Bereich von Home Assistant nach dem Download.
-
