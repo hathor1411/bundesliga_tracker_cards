@@ -4,12 +4,13 @@ Lovelace-Cards fuer die Bundesliga-Tracker-Integration auf Basis von OpenLigaDB.
 
 Aktuelle Version:
 
-- `0.1.3`
+- `0.1.4`
 
 ## Was ist enthalten?
 
 - Tabellenkarte
 - Spielplankarte
+- DFB-Pokal-Karte
 
 Die Karten nutzen die Daten der Home-Assistant-Integration `Bundesliga Tracker`.
 
@@ -26,7 +27,7 @@ Die Karten werden nach der HACS-Installation ueber `/hacsfiles/` geladen.
 
 ### Loader-Datei
 
-Die Hauptdatei, die beide Karten registriert:
+Die Hauptdatei, die alle Karten registriert:
 
 ```text
 /hacsfiles/bundesliga_tracker_cards/dist/bundesliga_tracker_cards.js
@@ -54,12 +55,23 @@ past_limit: 3
 upcoming_limit: 5
 ```
 
+### DFB-Pokal-Karte
+
+Beispiel:
+
+```yaml
+type: custom:openligadb-dfb-pokal-bracket-card
+entity: sensor.dfb_pokal_2026_round_overview
+title: DFB-Pokal
+```
+
 ## Resource-URLs
 
 Die Karten werden aus dem `dist/`-Ordner geladen:
 
 - `/hacsfiles/bundesliga_tracker_cards/dist/openligadb-table-card.js`
 - `/hacsfiles/bundesliga_tracker_cards/dist/openligadb-schedule-card.js`
+- `/hacsfiles/bundesliga_tracker_cards/dist/dfb-pokal-bracket-card.js`
 
 Falls Home Assistant die Karten nicht sofort im Editor findet, lade die Dashboard-Seite einmal neu.
 
