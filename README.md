@@ -4,7 +4,7 @@ Lovelace-Cards fuer die Bundesliga-Tracker-Integration auf Basis von OpenLigaDB.
 
 Aktuelle Version:
 
-- `0.1.2`
+- `0.1.3`
 
 ## Was ist enthalten?
 
@@ -67,4 +67,3 @@ Falls Home Assistant die Karten nicht sofort im Editor findet, lade die Dashboar
 
 - Die Karten sind fuer die Integration `Bundesliga Tracker` gedacht.
 - Die Integration muss vorher installiert und konfiguriert sein.
-
