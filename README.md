@@ -4,7 +4,7 @@ Lovelace-Cards fuer die Bundesliga-Tracker-Integration auf Basis von OpenLigaDB.
 
 Aktuelle Version:
 
-- `0.9.0`
+- `0.9.1`
 
 ## Was ist enthalten?
 
