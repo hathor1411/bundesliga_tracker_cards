@@ -507,8 +507,18 @@ class OpenLigaDBDFBPokalBracketCard extends HTMLElement {
       });
     };
 
+    const wentToExtraTime =
+      match.extra_time_home_score !== null &&
+      match.extra_time_home_score !== undefined &&
+      match.extra_time_away_score !== null &&
+      match.extra_time_away_score !== undefined;
+
     pushFallback("HZ", match.half_time_home_score, match.half_time_away_score);
-    pushFallback("FT", match.home_score, match.away_score);
+    if (!wentToExtraTime) {
+      // match.home_score already equals the extra-time score once the match went
+      // there, so showing it again under "FT" would just duplicate the n.V. row.
+      pushFallback("FT", match.home_score, match.away_score);
+    }
     pushFallback("n.V.", match.extra_time_home_score, match.extra_time_away_score);
     pushFallback("i.E.", match.penalty_home_score, match.penalty_away_score);
     return fallback;

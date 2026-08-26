@@ -819,6 +819,21 @@ class OpenLigaDBScheduleCard extends HTMLElement {
     return `HZ ${home}:${away}`;
   }
 
+  _resultLabel(match) {
+    if (!match.finished) {
+      return "Anpfiff";
+    }
+    const hasScore = (home, away) =>
+      home !== null && home !== undefined && away !== null && away !== undefined;
+    if (hasScore(match.penalty_home_score, match.penalty_away_score)) {
+      return "i.E.";
+    }
+    if (hasScore(match.extra_time_home_score, match.extra_time_away_score)) {
+      return "n.V.";
+    }
+    return "FT";
+  }
+
   _heroMeta(match) {
     const kickoff = match.kickoff ? new Date(match.kickoff) : null;
     if (!kickoff) {
@@ -833,7 +848,7 @@ class OpenLigaDBScheduleCard extends HTMLElement {
       minute: "2-digit",
     }).format(kickoff);
 
-    return `${match.finished ? "FT" : "Anpfiff"} - ${date}`;
+    return `${this._resultLabel(match)} - ${date}`;
   }
 
   _renderMatchRow(match, kind) {
