@@ -223,6 +223,15 @@ class OpenLigaDBDFBPokalBracketCard extends HTMLElement {
           color: var(--secondary-text-color);
         }
 
+        .score-row .result-suffix {
+          font-size: 0.7rem;
+          font-weight: 700;
+          color: var(--secondary-text-color);
+          letter-spacing: 0.02em;
+          align-self: flex-end;
+          margin-bottom: 3px;
+        }
+
         .score-row.vs {
           font-size: 1rem;
           color: var(--secondary-text-color);
@@ -394,7 +403,7 @@ class OpenLigaDBDFBPokalBracketCard extends HTMLElement {
     const kickoff = match.kickoff ? new Date(match.kickoff) : null;
     const homeUrl = match.home_team_url || match.home_team_icon_url;
     const awayUrl = match.away_team_url || match.away_team_icon_url;
-    const hasScore = match.home_score !== null && match.away_score !== null;
+    const displayResult = this._displayResult(match);
     const phase = this._matchPhase(match);
     const favoriteSide = match.is_favorite_match ? match.favorite_team_side : null;
     const outcome = this._matchOutcome(match);
@@ -409,10 +418,10 @@ class OpenLigaDBDFBPokalBracketCard extends HTMLElement {
             </div>
           </div>
 
-          <div class="score-row ${hasScore ? "" : "vs"}">
+          <div class="score-row ${displayResult ? "" : "vs"}">
             ${
-              hasScore
-                ? `<span>${this._escapeHtml(String(match.home_score))}</span><span class="sep">:</span><span>${this._escapeHtml(String(match.away_score))}</span>`
+              displayResult
+                ? `<span>${this._escapeHtml(String(displayResult.home))}</span><span class="sep">:</span><span>${this._escapeHtml(String(displayResult.away))}</span>${displayResult.suffix ? `<span class="result-suffix">${this._escapeHtml(displayResult.suffix)}</span>` : ""}`
                 : `<span>vs</span>`
             }
           </div>
@@ -464,23 +473,29 @@ class OpenLigaDBDFBPokalBracketCard extends HTMLElement {
     return { winnerSide, loserSide };
   }
 
-  _winnerSide(match) {
-    const details = this._resultDetails(match);
-    const resultPriority = ["i.E.", "n.V.", "FT"];
+  _hasValidScore(home, away) {
+    return home !== null && home !== undefined && away !== null && away !== undefined;
+  }
 
-    for (const label of resultPriority) {
-      const detail = details.find((item) => item.label === label);
-      if (!detail) {
-        continue;
-      }
-
-      const winner = this._winnerFromScores(detail.home_score, detail.away_score);
-      if (winner) {
-        return winner;
-      }
+  _displayResult(match) {
+    if (this._hasValidScore(match.penalty_home_score, match.penalty_away_score)) {
+      return { home: match.penalty_home_score, away: match.penalty_away_score, suffix: "i.E." };
     }
+    if (this._hasValidScore(match.extra_time_home_score, match.extra_time_away_score)) {
+      return { home: match.extra_time_home_score, away: match.extra_time_away_score, suffix: "n.V." };
+    }
+    if (this._hasValidScore(match.home_score, match.away_score)) {
+      return { home: match.home_score, away: match.away_score, suffix: null };
+    }
+    return null;
+  }
 
-    return this._winnerFromScores(match.home_score, match.away_score);
+  _winnerSide(match) {
+    const displayResult = this._displayResult(match);
+    if (!displayResult) {
+      return null;
+    }
+    return this._winnerFromScores(displayResult.home, displayResult.away);
   }
 
   _resultDetails(match) {
